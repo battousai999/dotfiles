@@ -3,6 +3,8 @@
 	email = kurtis.jones@extendhealth.com
 
 [alias]
+    p = pull --ff-only
+    pr = pull --rebase
     dc = diff --cached
     amend = comit --amend
     aa = add --all
