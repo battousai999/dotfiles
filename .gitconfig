@@ -40,6 +40,8 @@
 	proxy = 
 [push]
 	default = tracking
+[pull]
+    ff = only
 [merge]
 	keepBackup = false
 	tool = p4mergetool
