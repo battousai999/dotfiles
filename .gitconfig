@@ -66,6 +66,7 @@
 	keepBackup = false
 [diff]
 	tool = p4mergetool
+    algorithm = histogram
 [difftool "p4mergetool"]
 	cmd = 'C:\\Program Files\\Perforce\\p4merge.exe' $LOCAL $REMOTE
 [gui]
