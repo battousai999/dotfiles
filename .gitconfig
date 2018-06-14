@@ -40,6 +40,7 @@
 	proxy = 
 [push]
 	default = tracking
+	recurseSubmodules = check
 [pull]
     ff = only
 [merge]
@@ -69,7 +70,12 @@
 [diff]
 	tool = p4mergetool
     algorithm = histogram
+	submodule = log
 [difftool "p4mergetool"]
 	cmd = 'C:\\Program Files\\Perforce\\p4merge.exe' $LOCAL $REMOTE
 [gui]
 	recentrepo = C:/dev/extend-health/communications
+[status]
+	showUntrackedFiles = all
+[fetch]
+	recurseSubmodules = on-demand
