@@ -1,0 +1,65 @@
+#!c:/tools/ruby193/bin/ruby.exe --disable-gems
+
+ANSI_BLACK="\033[0;30m"
+ANSI_BLACK_BOLD="\033[0;30;1m"
+ANSI_RED="\033[0;31m"
+ANSI_RED_BOLD="\033[0;31;1m"
+ANSI_GREEN="\033[0;32m"
+ANSI_GREEN_BOLD="\033[0;32;1m"
+ANSI_YELLOW="\033[0;33m"
+ANSI_YELLOW_BOLD="\033[0;33;1m"
+ANSI_BLUE="\033[0;34m"
+ANSI_BLUE_BOLD="\033[0;34;1m"
+ANSI_MAGENTA="\033[0;35m"
+ANSI_MAGENTA_BOLD="\033[0;35;1m"
+ANSI_CYAN="\033[0;36m"
+ANSI_CYAN_BOLD="\033[0;36;1m"
+ANSI_WHITE="\033[0;37m"
+ANSI_WHITE_BOLD="\033[0;37;1m"
+ANSI_RESET="\033[0m"
+
+# Example of the git log format we're colorizing:
+#
+# *  TW-42777                          ca07c50  (8 minutes)  <Kurtis Jones>  TW-42777 Add remaining accpetance tests
+#    TW-42777-alternate-impersonation  4a29078  (27 hours)   <Kurtis Jones>  TW-42777 Refactor with alternate impersonation
+#    master                            551aa56  (11 days)    <Lance Morgan>  Merge pull request #98 from extend-health/TW-42532-individual-endpoint
+#    TW-42777-TransactionHistory       6f6b23e  (2 weeks)    <wessmi>        TW-42777: Added CalSessionService back to the project
+
+def colorize_line(line)
+    re = %r{
+        \A                          # Beginning of string (not just end of line)
+        (?<indicator>\**)\s*        # Current-branch indicator
+        (?<branch>[^\s]+\s*)        # Branch name        
+        (?<hash>[0-9a-z]+\s*)       # Commit hash
+        (?<time>\([^\)]+\)\s*)      # Relative time of commit
+        (?<name><[^>]+>\s*)         # Committer name
+        (?<message>.*)              # Commit message
+        \z                          # End of string (not just end of line)
+    }x
+    indicator, branch, hash, time, name, message = re.match(line).captures
+    [
+        ANSI_RESET, indicator == '*' ? '*  ' : '   ',
+        ANSI_RED_BOLD, branch,
+        ANSI_YELLOW, hash,
+        ANSI_GREEN, time,
+        ANSI_CYAN, name,
+
+        # Turn merge commits red so they stand out
+        message =~ /^Merge / ? ANSI_RED : ANSI_RESET,
+        message,
+
+        ANSI_RESET,
+    ].join('')
+end
+
+colorized = $stdin.readlines.map(&:strip).map do |line|
+    colorize_line(line)
+end.join("\n")
+
+begin
+    $stdout.write colorized + "\n"
+rescue Errno::EPIPE
+    # We don't want to raise a Ruby exception if the reader goes away
+    # (e.g., the user kills the `less` that we're piped into).
+    exit 1
+end
