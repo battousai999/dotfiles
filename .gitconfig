@@ -15,6 +15,7 @@
 	ci = commit --verbose
 	s = status
 	com = checkout master
+    history = log --full-history --pretty=oneline --date-order --decorate=full head --follow
     
     # Fancy logging.
     #   h = head
@@ -73,6 +74,8 @@
 	submodule = log
 [difftool "p4mergetool"]
 	cmd = 'C:\\Program Files\\Perforce\\p4merge.exe' $LOCAL $REMOTE
+[difftool "kdiff"]
+    cmd = 'c:\\Program Files\\KDiff3\\kdiff3.exe' $LOCAL $REMOTE
 [gui]
 	recentrepo = C:/dev/extend-health/communications
 [status]
