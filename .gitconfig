@@ -14,6 +14,7 @@
 	co = checkout
 	ci = commit --verbose
 	s = status
+    ss = status --short
 	com = checkout master
     history = log --full-history --pretty=oneline --date-order --decorate=full head --follow
     
