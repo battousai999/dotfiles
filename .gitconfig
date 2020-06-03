@@ -48,6 +48,7 @@
 [merge]
 	keepBackup = false
 	tool = p4mergetool
+	conflictstyle = diff3
 [mergetool "p4merge"]
 	keepTemporaries = false
 	trustExitCode = false
@@ -59,6 +60,7 @@
 [core]
 	autocrlf = true
 	editor = 'C:/Program Files/Notepad++/notepad++.exe' -multiInst -notabbar -nosession -noPlugin
+    pager = diff-so-fancy | less --tabs=4 -RFX
 [filter "lfs"]
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
@@ -83,3 +85,17 @@
 	showUntrackedFiles = all
 [fetch]
 	recurseSubmodules = on-demand
+[color]
+	ui = true
+[color "diff-highlight"]
+	oldNormal = red bold
+	oldHighlight = red bold 52
+	newNormal = green bold
+	newHighlight = green bold 22
+[color "diff"]
+	meta = 11
+	frag = magenta bold
+	commit = yellow bold
+	old = red bold
+	new = green bold
+	whitespace = red reverse
